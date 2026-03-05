@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Grupos e Temas</title>
+  <style>
+    :root {
+      --bg1:#0f172a; --bg2:#111827;
+      --card:rgba(255,255,255,.92);
+      --text:#0b1220; --muted:#5b6472;
+      --line:rgba(15,23,42,.10);
+      --shadow:0 18px 60px rgba(0,0,0,.25);
+      --radius:16px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 600px at 20% -10%, rgba(37,99,235,.35), transparent 60%),
+        radial-gradient(900px 500px at 80% 0%, rgba(34,197,94,.25), transparent 55%),
+        linear-gradient(180deg,var(--bg1),var(--bg2));
+      min-height:100vh; padding:28px 18px;
+    }
+    .wrap{max-width:1120px;margin:0 auto}
+    .card{
+      background:var(--card);
+      border:1px solid rgba(255,255,255,.55);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      backdrop-filter:blur(8px);
+    }
+    .header{
+      padding:18px 18px 14px;
+      background:linear-gradient(90deg, rgba(37,99,235,.12), rgba(34,197,94,.10));
+      border-bottom:1px solid var(--line);
+    }
+    .title-row{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center}
+    h1{margin:0;font-size:18px}
+    .badges{display:flex;gap:8px;flex-wrap:wrap}
+    .badge{
+      padding:8px 10px;border-radius:999px;
+      border:1px solid rgba(37,99,235,.25);
+      background:rgba(37,99,235,.08);
+      color:#0b2a6e;font-size:12px;font-weight:600;
+    }
+    .sub{margin:8px 0 0;color:var(--muted);font-size:13px;line-height:1.45}
+    .table-wrap{overflow:auto}
+    table{width:100%;border-collapse:separate;border-spacing:0;min-width:980px}
+    thead th{
+      position:sticky;top:0;z-index:2;
+      background:rgba(255,255,255,.98);
+      text-align:left;font-size:12px;color:#334155;
+      padding:12px 14px;border-bottom:1px solid var(--line);
+    }
+    tbody td{
+      padding:12px 14px;border-bottom:1px solid var(--line);
+      vertical-align:top;font-size:13px;line-height:1.45;
+    }
+    tbody tr:nth-child(odd){background:rgba(15,23,42,.02)}
+    tbody tr:hover{background:rgba(37,99,235,.06)}
+    .col-num{width:70px;white-space:nowrap}
+    .pill{
+      display:inline-flex;align-items:center;justify-content:center;
+      width:34px;height:26px;border-radius:999px;
+      border:1px solid rgba(15,23,42,.12);
+      background:rgba(255,255,255,.9);
+      font-weight:700;font-size:12px;color:#0f172a;
+    }
+    .col-grupo{font-weight:900;width:14%}
+    .col-integrantes{width:26%}
+    .col-tema{width:60%}
+
+    .tema-btn{
+      all: unset;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+
+      padding: 8px 10px;
+      border-radius: 10px;
+
+      border: 1px solid rgba(15, 23, 42, .14);
+      background: rgba(15, 23, 42, .04);
+      color: #0f172a;
+
+      font-weight: 700;
+      line-height: 1.2;
+      transition: background .15s ease, border-color .15s ease, transform .05s ease;
+    }
+
+    .tema-btn:hover{
+      background: rgba(37, 99, 235, .08);
+      border-color: rgba(37, 99, 235, .25);
+    }
+
+    .tema-btn:active{
+      transform: translateY(1px);
+    }
+
+    .tema-btn:focus-visible{
+      outline: 3px solid rgba(37, 99, 235, .25);
+      outline-offset: 2px;
+    }
+
+    .footer{
+      padding:14px 18px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      border-top:1px solid var(--line);color:var(--muted);font-size:12px;
+      background:rgba(255,255,255,.65);
+    }
+    .assinatura{font-weight:600;color:#334155}
+
+    .modal-overlay{
+      position:fixed; inset:0; display:none;
+      background:rgba(0,0,0,.55);
+      padding:18px;
+      align-items:center; justify-content:center;
+    }
+    .modal{
+      width:min(920px, 100%);
+      background:rgba(255,255,255,.98);
+      border-radius:16px;
+      box-shadow:0 30px 80px rgba(0,0,0,.35);
+      overflow:hidden;
+      border:1px solid rgba(15,23,42,.12);
+    }
+    .modal-head{
+      padding:14px 16px;
+      background:linear-gradient(90deg, rgba(37,99,235,.10), rgba(34,197,94,.08));
+      border-bottom:1px solid rgba(15,23,42,.10);
+      display:flex; align-items:center; justify-content:space-between; gap:10px;
+    }
+    .modal-title{margin:0;font-size:16px}
+    .modal-close{
+      border:1px solid rgba(15,23,42,.18);
+      background:#fff;
+      border-radius:10px;
+      padding:8px 10px;
+      cursor:pointer;
+      font-weight:700;
+    }
+    .modal-body{padding:16px}
+    .sec{margin:0 0 14px}
+    .sec h3{margin:0 0 8px;font-size:13px;color:#0f172a}
+    .list{margin:0;padding-left:18px;color:#111827}
+    .list li{margin:6px 0}
+    code{background:rgba(15,23,42,.06);padding:2px 6px;border-radius:8px}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <div class="header">
+        <div class="title-row">
+          <h1>Trabalho em Duplas - Temas Sorteados</h1>
+          <div class="badges">
+            <div class="badge">Total de grupos: 13</div>
+            <div class="badge">Total de alunos vinculados: 26</div>
+          </div>
+        </div>
+        <p class="sub">Clique no tema para abrir os detalhes.</p>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Nº</th>
+              <th>Grupo</th>
+              <th>Integrantes</th>
+              <th>Tema</th>
+            </tr>
+          </thead>
+          <tbody>
+            
+            <tr>
+              <td class="col-num"><span class="pill">1</span></td>
+              <td class="col-grupo">GRUPO A</td>
+              <td class="col-integrantes">RICARDO DOS SANTOS SILVA JUNIOR<br>EDUARDO DA SILVA ACUNHA</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="9">
+                  Simulador de atendimento/senha (fila simples)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">2</span></td>
+              <td class="col-grupo">GRUPO B</td>
+              <td class="col-integrantes">GUILHERME QUINTINO DOS SANTOS<br>ANA CLARA DIAS</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="1">
+                  Quiz de perguntas e respostas (placar, tentativas)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">3</span></td>
+              <td class="col-grupo">GRUPO C</td>
+              <td class="col-integrantes">RICK PEREIRA VARGAS<br>MURILO GONCALVES FERMINO</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="4">
+                  Agenda de contatos (adicionar/buscar/listar)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">4</span></td>
+              <td class="col-grupo">GRUPO D</td>
+              <td class="col-integrantes">IGOR BARBOSA GOMES<br>ALLAN ZULIN</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="0">
+                  Sistema de caixa simples (venda, troco, subtotal, desconto)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">5</span></td>
+              <td class="col-grupo">GRUPO E</td>
+              <td class="col-integrantes">CARLA IZABELA QUEIROZ LEAL<br>GABRIELA SANTOS GALERANI</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="5">
+                  Gerador de senhas (tamanho, regras, força)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">6</span></td>
+              <td class="col-grupo">GRUPO F</td>
+              <td class="col-integrantes">LEANDRO VASCONCELOS JOAQUIM FILHO<br>GABRIEL CORDEIRO DA SILVA</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="8">
+                  Conversor de unidades (temperatura, moedas fictícias, medidas)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">7</span></td>
+              <td class="col-grupo">GRUPO G</td>
+              <td class="col-integrantes">MATHEUS NASCIMENTO ALCAIDE<br>GUSTAVO FERREIRA DO AMARAL</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="2">
+                  Jogo de adivinhação com random (níveis e dicas)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">8</span></td>
+              <td class="col-grupo">GRUPO H</td>
+              <td class="col-integrantes">CHRISTOFER ANDREW DA COSTA KOCH<br>GABRIEL MENEGHETTI DE ALMEIDA SANTANA</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="6">
+                  Simulador de notas (cadastro de alunos e médias)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">9</span></td>
+              <td class="col-grupo">GRUPO I</td>
+              <td class="col-integrantes">FLAVIO EDUARDO SATURNINO DE OLIVEIRA<br>MICHEL TEIXEIRA LIMA</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="3">
+                  Controle de estoque básico (adicionar/remover/listar)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">10</span></td>
+              <td class="col-grupo">GRUPO J</td>
+              <td class="col-integrantes">RICHARD MAXIMUS DE CAMPOS PARAIZO<br>JOAO PEDRO KETELHUT GONZAGA</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="7">
+                  Controle de gastos (registrar despesas e relatório)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">11</span></td>
+              <td class="col-grupo">GRUPO K</td>
+              <td class="col-integrantes">CAUA FERNANDO PLACCO DOS SANTOS<br>JOAO VITOR DE ALENCAR JACINTO</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="0">
+                  Sistema de caixa simples (venda, troco, subtotal, desconto)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">12</span></td>
+              <td class="col-grupo">GRUPO L</td>
+              <td class="col-integrantes">PEDRO HENRIQUE ARANTES CHAVES<br>RODRIGO SALES LIMA</td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="4">
+                  Agenda de contatos (adicionar/buscar/listar)
+                </button>
+              </td>
+            </tr>
+            
+            <tr>
+              <td class="col-num"><span class="pill">13</span></td>
+              <td class="col-grupo">GRUPO M</td>
+              <td class="col-integrantes">GUSTAVO YAMAMOTTO NORONHA<br></td>
+              <td class="col-tema">
+                <button class="tema-btn" type="button" data-tema-id="1">
+                  Quiz de perguntas e respostas (placar, tentativas)
+                </button>
+              </td>
+            </tr>
+            
+          </tbody>
+        </table>
+      </div>
+
+      <div class="footer">
+        <div class="assinatura">Ass. Vinicius Tessari.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="overlay" aria-hidden="true">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <div class="modal-head">
+        <h2 class="modal-title" id="modalTitle">Detalhes do Tema</h2>
+        <button class="modal-close" id="btnClose" type="button">Fechar</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const TEMAS = ["Sistema de caixa simples (venda, troco, subtotal, desconto)", "Quiz de perguntas e respostas (placar, tentativas)", "Jogo de adivinhação com random (níveis e dicas)", "Controle de estoque básico (adicionar/remover/listar)", "Agenda de contatos (adicionar/buscar/listar)", "Gerador de senhas (tamanho, regras, força)", "Simulador de notas (cadastro de alunos e médias)", "Controle de gastos (registrar despesas e relatório)", "Conversor de unidades (temperatura, moedas fictícias, medidas)", "Simulador de atendimento/senha (fila simples)"];
+    const TEMA_DETALHES = {"0": [{"lib": "datetime", "code": "from datetime import datetime", "why": "registrar data/hora da venda"}, {"lib": "statistics", "code": "import statistics", "why": "média de vendas, se tiver relatório"}, {"lib": "os", "code": "import os", "why": "salvar/ler arquivo de vendas, limpar tela"}], "1": [{"lib": "random", "code": "import random", "why": "embaralhar perguntas, escolher aleatórias"}, {"lib": "time", "code": "import time", "why": "tempo limite, pausas, contagem"}, {"lib": "datetime", "code": "from datetime import datetime", "why": "registrar quando foi feito"}], "2": [{"lib": "random", "code": "import random", "why": "número secreto"}, {"lib": "time", "code": "import time", "why": "pausa, cronômetro, bônus por tempo"}, {"lib": "math", "code": "import math", "why": "dicas por distância, arredondamentos"}], "3": [{"lib": "os", "code": "import os", "why": "ler/escrever arquivo do estoque, caminhos"}, {"lib": "datetime", "code": "from datetime import datetime", "why": "log de movimentações"}, {"lib": "sys", "code": "import sys", "why": "encerrar o programa de forma controlada"}], "4": [{"lib": "os", "code": "import os", "why": "persistir em arquivo .txt/.csv simples"}, {"lib": "sys", "code": "import sys", "why": "encerrar / argumentos (opcional)"}, {"lib": "datetime", "code": "from datetime import datetime", "why": "registro de criação/atualização"}], "5": [{"lib": "random", "code": "import random", "why": "montar senha aleatória"}, {"lib": "math", "code": "import math", "why": "força estimada (entropia simples)"}, {"lib": "time", "code": "import time", "why": "pausas e travas por tentativas"}], "6": [{"lib": "statistics", "code": "import statistics", "why": "média, mediana, moda, desvio padrão"}, {"lib": "datetime", "code": "from datetime import datetime", "why": "data do boletim"}, {"lib": "os", "code": "import os", "why": "salvar boletim em arquivo"}], "7": [{"lib": "datetime", "code": "from datetime import datetime", "why": "data da despesa"}, {"lib": "statistics", "code": "import statistics", "why": "média por período, maior gasto"}, {"lib": "os", "code": "import os", "why": "salvar/ler histórico"}], "8": [{"lib": "math", "code": "import math", "why": "precisão e arredondamentos"}, {"lib": "time", "code": "import time", "why": "pausas e UX do menu"}, {"lib": "sys", "code": "import sys", "why": "sair / ler parâmetros (opcional)"}], "9": [{"lib": "random", "code": "import random", "why": "prioridade aleatória / tempo de atendimento"}, {"lib": "time", "code": "import time", "why": "simular atendimento por segundos"}, {"lib": "datetime", "code": "from datetime import datetime", "why": "hora que a senha foi gerada"}]};
+    const LIB_INFO = {"random": "gera valores aleatórios. Usado pra sorteio, embaralhar listas, jogos, senhas simples.", "math": "funções matemáticas “de verdade”. Raiz, potências, trigonometria, arredondamentos, constante pi, floor/ceil.", "time": "trabalha com tempo de execução e pausas. Serve pra sleep() (esperar X segundos), medir duração de código, timestamps simples.", "datetime": "datas e horas de forma correta. Pega data/hora atual, soma dias/horas, calcula diferença entre datas, formata data.", "statistics": "estatística básica pronta. Média, mediana, moda, variância, desvio padrão (ótimo pra notas e relatórios).", "os": "conversa com o sistema operacional. Caminhos/arquivos/pastas, variáveis de ambiente, limpar tela, criar pastas, listar diretórios.", "sys": "informações e controle do Python em execução. Argumentos de linha de comando (sys.argv), encerrar o programa (sys.exit), detalhes do interpretador."};
+
+    const overlay = document.getElementById("overlay");
+    const btnClose = document.getElementById("btnClose");
+    const modalTitle = document.getElementById("modalTitle");
+    const modalBody = document.getElementById("modalBody");
+
+    function abrirModal(temaId) {
+      const id = String(temaId);
+      const tema = TEMAS[temaId] || "Tema";
+      const detalhes = TEMA_DETALHES[id] || [];
+
+      modalTitle.textContent = tema;
+
+      let importsHtml = "<ul class='list'>";
+      const libsUsadas = [];
+      for (const item of detalhes) {
+        importsHtml += `<li><code>${item.code}</code> — ${item.why}</li>`;
+        if (item.lib) libsUsadas.push(item.lib);
+      }
+      importsHtml += "</ul>";
+
+      let libsHtml = "<ul class='list'>";
+      const unicas = [...new Set(libsUsadas)];
+      for (const lib of unicas) {
+        const desc = LIB_INFO[lib] || "Sem descrição.";
+        libsHtml += `<li><strong>${lib}</strong>: ${desc}</li>`;
+      }
+      libsHtml += "</ul>";
+
+      modalBody.innerHTML = `
+          <div class="sec">
+            <h3>Bibliotecas sugeridas</h3>
+            ${importsHtml}
+          </div>
+          <div class="sec">
+            <h3>O que cada biblioteca faz</h3>
+            ${libsHtml}
+          </div>
+        `;
+
+      overlay.style.display = "flex";
+      overlay.setAttribute("aria-hidden", "false");
+    }
+
+    function fecharModal() {
+      overlay.style.display = "none";
+      overlay.setAttribute("aria-hidden", "true");
+    }
+
+    document.querySelectorAll("[data-tema-id]").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const id = Number(btn.getAttribute("data-tema-id"));
+        if (!Number.isNaN(id) && id >= 0) abrirModal(id);
+      });
+    });
+
+    btnClose.addEventListener("click", fecharModal);
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) fecharModal();
+    });
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") fecharModal();
+    });
+  </script>
+</body>
+</html>

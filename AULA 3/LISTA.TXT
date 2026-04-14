@@ -1,0 +1,184 @@
+Lista de Exercícios de Revisão 
+
+Regras gerais
+- Todos os exercícios devem ser feitos em Python.
+- Sempre valide entradas quando fizer sentido.
+- Use mensagens claras na saída.
+- Quando o exercício pedir “menu”, use `while` + `match/case`.
+
+
+1) Menu de operações básicas (calculadora)
+Crie um menu com opções:
+1) Somar
+2) Subtrair
+3) Multiplicar
+4) Dividir
+0) Sair
+
+Requisitos:
+- Use `while` para repetir o menu.
+- Use `match/case` para tratar a opção.
+- Use `if/else` para validar divisão por zero.
+- Mostre o resultado em cada operação.
+
+
+2) Controle de tentativas (senha simples)
+Peça uma senha ao usuário.
+- O usuário tem 3 tentativas.
+- Se acertar, mostrar “Acesso liberado” e parar.
+- Se errar 3 vezes, mostrar “Acesso bloqueado”.
+
+Requisitos:
+- Use `while` para controlar tentativas.
+- Use `if/else` para comparar senha.
+- Não use bibliotecas.
+
+
+3) Tabuada com validação
+Peça um número inteiro `n`.
+- Se `n` for negativo, mostrar “Número inválido”.
+- Caso contrário, imprimir a tabuada de `n` de 1 até 10.
+
+Requisitos:
+- Use `if/else` para validação.
+- Use `for` para gerar a tabuada.
+
+
+4) Soma e contagem até sentinela
+Leia números inteiros até o usuário digitar 0.
+Ao final, mostre:
+- soma dos números
+- quantidade de números digitados (sem contar o 0)
+
+Requisitos:
+- Use `while` com condição sentinela.
+- Use `if/else` para ignorar o 0 e validar lógica.
+- Trate entrada inválida (texto).
+
+
+5) Média de notas com repetição controlada
+Pergunte quantas notas o usuário vai digitar (`qtd`).
+- Leia as notas (0 a 10). Se sair do intervalo, peça novamente.
+- Ao final, mostre a média.
+
+Requisitos:
+- Use `for` para ler as notas.
+- Use `while` ou `if/else` para validar nota.
+- Use `if/else` para tratar `qtd <= 0`.
+
+
+6) Classificação por faixa (idade)
+Peça a idade do usuário e classifique:
+- “Criança” (0 a 11)
+- “Adolescente” (12 a 17)
+- “Adulto” (18 a 59)
+- “Idoso” (60+)
+
+Requisitos:
+- Use apenas `if/else` (com `elif` se quiser).
+- Valide idades inválidas (negativo ou muito alto).
+
+
+7) Menu de conversões simples
+Menu:
+1) Celsius para Fahrenheit
+2) Fahrenheit para Celsius
+0) Sair
+
+Requisitos:
+- `while` + `match/case` para menu.
+- `if/else` para validar se a entrada é numérica.
+- Exibir resultado com 2 casas decimais.
+
+
+8) Contagem de pares e ímpares em intervalo
+Peça um inteiro `n` (n >= 1).
+Conte quantos números entre 1 e n são pares e quantos são ímpares.
+
+Requisitos:
+- Use `for`.
+- Use `if/else` para separar pares e ímpares.
+- Valide `n`.
+
+
+9) Verificador de múltiplos
+Peça dois inteiros `a` e `b`.
+Diga se `a` é múltiplo de `b`.
+
+Requisitos:
+- Use `if/else`.
+- Trate o caso `b == 0` como inválido.
+
+
+10) Busca simples em lista (sem usar “in”)
+Crie uma lista com 10 nomes (fixos no código).
+Peça um nome ao usuário.
+Verifique se o nome existe na lista percorrendo com `for`.
+- Se encontrar, mostrar “Encontrado”.
+- Se não encontrar, mostrar “Não encontrado”.
+
+Requisitos:
+- Use `for` e `if/else`.
+- Não use `in` nem métodos prontos de busca.
+
+
+11) Menu de relatórios (lista de números)
+Crie um programa que permite:
+1) Adicionar número na lista
+2) Mostrar maior número
+3) Mostrar menor número
+4) Mostrar soma total
+0) Sair
+
+Requisitos:
+- Use `while` + `match/case`.
+- Use `for` para calcular maior/menor/soma (sem usar `max`, `min`, `sum`).
+- Use `if/else` para tratar lista vazia.
+
+
+12) Validação de entrada numérica
+Peça um número inteiro positivo.
+- Enquanto o usuário não digitar um inteiro positivo, continue pedindo.
+- Quando for válido, mostre “OK” e o número.
+
+Requisitos:
+- Use `while`.
+- Use `if/else` para validar.
+- Trate erro quando o usuário digitar texto.
+
+
+13) Sequência de Fibonacci (n termos)
+Peça `n` (n >= 1).
+Mostre os n primeiros termos de Fibonacci.
+
+Requisitos:
+- Use `for` para gerar a sequência.
+- Use `if/else` para tratar os primeiros termos.
+- Valide `n`.
+
+
+14) Simulador de filas (atendimento básico)
+O usuário digita senhas (números) e o sistema armazena numa lista.
+Menu:
+1) Gerar senha (incrementa)
+2) Chamar próxima senha
+0) Sair
+
+Requisitos:
+- Use `while` + `match/case`.
+- Use `if/else` para tratar fila vazia.
+- Use lista para armazenar senhas.
+
+
+15) Problema de lógica: melhor nota
+Peça quantos alunos serão avaliados (`qtd`).
+Para cada aluno, leia nome e nota.
+Ao final, mostre:
+- nome do aluno com maior nota
+- valor da maior nota
+
+Requisitos:
+- Use `for`.
+- Use `if/else` para atualizar “maior nota”.
+- Valide notas (0 a 10).
+
